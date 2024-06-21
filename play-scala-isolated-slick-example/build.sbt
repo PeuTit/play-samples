@@ -6,7 +6,7 @@ lazy val databaseUrl = sys.env.getOrElse("DB_DEFAULT_URL", "jdbc:h2:./test")
 lazy val databaseUser = sys.env.getOrElse("DB_DEFAULT_USER", "sa")
 lazy val databasePassword = sys.env.getOrElse("DB_DEFAULT_PASSWORD", "")
 
-val FlywayVersion = "8.5.13"
+val FlywayVersion = "9.15.2"
 
 (ThisBuild / version) := "1.1-SNAPSHOT"
 
@@ -17,7 +17,7 @@ val FlywayVersion = "8.5.13"
   "com.google.inject" % "guice" % "5.1.0"
 )
 
-(ThisBuild / scalaVersion) := "2.13.10"
+(ThisBuild / scalaVersion) := "3.3.0-RC3"
 (ThisBuild / scalacOptions) ++= Seq(
   "-encoding", "UTF-8", // yes, this is 2 args
   "-deprecation",
@@ -45,11 +45,12 @@ lazy val api = (project in file("modules/api"))
 lazy val slick = (project in file("modules/slick"))
   .enablePlugins(CodegenPlugin)
   .settings(
+    scalaVersion := "3.3.0-RC3",
     libraryDependencies ++= Seq(
       "com.zaxxer" % "HikariCP" % "5.0.1",
-      "com.typesafe.slick" %% "slick" % "3.4.1",
-      "com.typesafe.slick" %% "slick-hikaricp" % "3.4.1",
-      "com.github.tototoshi" %% "slick-joda-mapper" % "2.6.0"
+      "com.typesafe.slick" %% "slick" % "3.4.0-SNAPSHOT",
+      "com.typesafe.slick" %% "slick-hikaricp" % "3.4.0-SNAPSHOT",
+      "com.github.tototoshi" %% "slick-joda-mapper" % "2.6.0",
     ),
 
     slickCodegenDatabaseUrl := databaseUrl,
@@ -91,7 +92,7 @@ lazy val root = (project in file("."))
       "com.h2database" % "h2" % "2.1.214",
       ws % Test,
       "org.flywaydb" % "flyway-core" % FlywayVersion % Test,
-      "org.scalatestplus.play" %% "scalatestplus-play" % "6.0.0-M2" % Test
+      "org.scalatestplus.play" %% "scalatestplus-play" % "6.0.0-M2+0-d4697b31+20230227-1631-SNAPSHOT" % Test
     ),
     (Test / fork) := true
   )
